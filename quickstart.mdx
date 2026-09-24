@@ -1,18 +1,18 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Quickstarts"
 sidebarTitle: "Quickstarts"
+description: ""
 mode: "wide"
 ---
 
-Choose the quickstart that matches what you want to build. Accept payments, send payouts, or exchange cryptocurrency, and finish with one working outcome. Each path uses the credential and flow for that service.
+Choose the OxaPay workflow that matches what you want to build: receive payments, send payouts, or swap cryptocurrency. Each quickstart leads to one working outcome. Supporting General APIs are listed separately when you need market or asset data.
 
 ---
 
 ## Choose a quickstart
 
-<div className="not-prose grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
-  <div id="accept-payments" className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
+<div className="not-prose mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+  <div className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
     <div className="flex items-start justify-between gap-4">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Icon icon="credit-card" size={18} />
@@ -24,104 +24,83 @@ Choose the quickstart that matches what you want to build. Accept payments, send
     </div>
 
     <h3 className="mt-5 mb-0 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
-      Accept a customer payment
+      Receive customer payments
     </h3>
 
     <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
-      Create an invoice, white-label payment, or static address and credit completed payments to your account.
+      Create a payment so a customer can pay and completed funds are credited to your OxaPay account.
     </p>
 
     <div className="mt-5 flex flex-wrap gap-2">
       <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
         <Icon icon="key" size={11} />
-
         Merchant API Key
       </span>
-
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
-        <Icon icon="settings" size={11} />
-
-        Merchant Service
-      </span>
     </div>
 
     <div className="mt-auto pt-6">
-      <a href="/quickstart#accept-payments" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
-        Start payment quickstart
+      <a href="/quickstarts/payment" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
+        Open payments quickstart
         <span>→</span>
       </a>
     </div>
   </div>
 
-  <div id="send-payouts" className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
+  <div className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
     <div className="flex items-start justify-between gap-4">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-        <Icon icon="send" size={18} />
+        <Icon icon="paper-plane" size={18} />
       </span>
     </div>
 
     <h3 className="mt-5 mb-0 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
-      Send a cryptocurrency payout
+      Send automated payouts
     </h3>
 
     <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
-      Send cryptocurrency from your OxaPay balance to an external address with an automated payout.
+      Send cryptocurrency from your OxaPay balance to an external blockchain address through the Payout API.
     </p>
 
     <div className="mt-5 flex flex-wrap gap-2">
       <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
         <Icon icon="key" size={11} />
-
         Payout API Key
-      </span>
-
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
-        <Icon icon="settings" size={11} />
-
-        Payout Service
       </span>
     </div>
 
     <div className="mt-auto pt-6">
-      <a href="/quickstart#send-payouts" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
-        Start payout quickstart
+      <a href="/quickstarts/payout" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
+        Open payouts quickstart
         <span>→</span>
       </a>
     </div>
   </div>
 
-  <div id="exchange-cryptocurrency" className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
+  <div className="flex h-full flex-col rounded-2xl border border-primary/25 bg-primary/5 p-6 dark:bg-transparent">
     <div className="flex items-start justify-between gap-4">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-        <Icon icon="arrow-left-right" size={18} />
+        <Icon icon="arrows-rotate" size={18} />
       </span>
     </div>
 
     <h3 className="mt-5 mb-0 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
-      Exchange cryptocurrency balances
+      Swap crypto balances
     </h3>
 
     <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
-      Exchange one supported cryptocurrency for another from your OxaPay balance through the dashboard or API.
+      Exchange one supported cryptocurrency for another using your OxaPay balance through the dashboard or API.
     </p>
 
     <div className="mt-5 flex flex-wrap gap-2">
       <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
         <Icon icon="wallet" size={11} />
-
         OxaPay balance
-      </span>
-
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-transparent dark:text-gray-300">
-        <Icon icon="code" size={11} />
-
-        Dashboard or API
       </span>
     </div>
 
     <div className="mt-auto pt-6">
-      <a href="/quickstart#exchange-cryptocurrency" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
-        Start swap quickstart
+      <a href="/quickstarts/swap" className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
+        Open swap quickstart
         <span>→</span>
       </a>
     </div>
@@ -130,36 +109,37 @@ Choose the quickstart that matches what you want to build. Accept payments, send
 
 ---
 
-## General
+## General APIs
 
-General APIs provide supporting information for OxaPay integrations, including currencies, networks, prices, and exchange rates. Use them when a payment, payout, or swap flow needs that data.
+General APIs supply the market and asset information other OxaPay workflows depend on. Use them when you need supported cryptocurrencies, networks, prices, or exchange rates rather than moving funds.
 
-<div id="general" className="not-prose mt-5 mb-10 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-transparent">
+<div className="not-prose mt-5 mb-10 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-transparent">
   <div className="border-b border-gray-200 p-6 dark:border-gray-800 sm:p-7">
     <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
       <div className="max-w-2xl">
         <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Icon icon="brackets-curly" size={18} />
+          <Icon icon="chart-line" size={18} />
         </div>
 
         <h3 className="m-0 text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
-          Look up market data
+          Access supporting market data
         </h3>
 
         <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">
-          Retrieve supported cryptocurrencies, blockchain networks, prices, and exchange rates before you create a payment, payout, or swap. These APIs return information and do not move funds.
+          Use General APIs when an integration needs supported cryptocurrencies, networks, prices, or exchange rates. These endpoints provide informational data and do not receive or send funds.
         </p>
       </div>
 
-      <a href="/quickstart#general" className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
-        View General APIs
+      <a href="/api-reference" className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary no-underline hover:underline">
+        Explore General APIs
         <span>→</span>
       </a>
     </div>
   </div>
 
   <div className="grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-4">
-    <a href="/quickstart#general" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
+
+    <a href="/api-reference" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
       <div className="flex items-start gap-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition group-hover:bg-primary/10 group-hover:text-primary dark:bg-transparent dark:text-gray-300">
           <Icon icon="coins" size={15} />
@@ -167,20 +147,20 @@ General APIs provide supporting information for OxaPay integrations, including c
 
         <div>
           <div className="text-sm font-semibold text-gray-900 group-hover:text-primary dark:text-gray-100">
-            Currencies
+            Cryptocurrencies
           </div>
 
           <div className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            List cryptocurrencies OxaPay supports for integration.
+            See which cryptocurrencies OxaPay integrations can use.
           </div>
         </div>
       </div>
     </a>
 
-    <a href="/quickstart#general" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
+    <a href="/api-reference" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
       <div className="flex items-start gap-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition group-hover:bg-primary/10 group-hover:text-primary dark:bg-transparent dark:text-gray-300">
-          <Icon icon="network" size={15} />
+          <Icon icon="globe" size={15} />
         </span>
 
         <div>
@@ -189,13 +169,13 @@ General APIs provide supporting information for OxaPay integrations, including c
           </div>
 
           <div className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            List blockchain networks available for those assets.
+            Identify supported blockchain networks for asset transfers.
           </div>
         </div>
       </div>
     </a>
 
-    <a href="/quickstart#general" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
+    <a href="/api-reference" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
       <div className="flex items-start gap-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition group-hover:bg-primary/10 group-hover:text-primary dark:bg-transparent dark:text-gray-300">
           <Icon icon="chart-line" size={15} />
@@ -207,16 +187,16 @@ General APIs provide supporting information for OxaPay integrations, including c
           </div>
 
           <div className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            Read current cryptocurrency prices for your integration.
+            Retrieve current cryptocurrency prices for integration logic.
           </div>
         </div>
       </div>
     </a>
 
-    <a href="/quickstart#general" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
+    <a href="/api-reference" className="group border-b border-gray-200 p-5 no-underline transition hover:bg-primary/5 dark:border-gray-800">
       <div className="flex items-start gap-3">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition group-hover:bg-primary/10 group-hover:text-primary dark:bg-transparent dark:text-gray-300">
-          <Icon icon="arrow-left-right" size={15} />
+          <Icon icon="right-left" size={15} />
         </span>
 
         <div>
@@ -225,14 +205,15 @@ General APIs provide supporting information for OxaPay integrations, including c
           </div>
 
           <div className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            Read exchange rates between supported cryptocurrencies.
+            Look up exchange rates between supported cryptocurrencies.
           </div>
         </div>
       </div>
     </a>
+
   </div>
 
   <div className="border-t border-gray-200 bg-gray-50 px-5 py-3.5 text-xs leading-5 text-gray-500 dark:border-gray-800 dark:bg-transparent dark:text-gray-400">
-    Requests to General APIs authenticate with the General API Key from Account Settings.
+    General APIs require the General API Key, which merchants obtain from Account Settings in the OxaPay dashboard.
   </div>
 </div>
