@@ -7,6 +7,90 @@ mode: "wide"
 
 OxaPay is a cryptocurrency payment gateway for managing digital assets. Developers receive payments, send payouts, exchange currencies, and read market data through service-specific APIs, each authenticated with its own API key.
 
+<div className="not-prose mt-8 mb-12">
+  <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
+    <div>
+      <h3 className="m-0 max-w-xl text-3xl font-semibold tracking-tight text-gray-950 dark:text-white">
+        Make your first payment
+      </h3>
+
+      <p className="mt-4 max-w-xl text-base leading-7 text-gray-600 dark:text-gray-400">
+        Create a sandbox invoice, receive a payment URL, and handle status
+        updates with webhooks. Add deposit addresses, payouts, or swaps as your
+        integration grows.
+      </p>
+
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Icon icon="check" size={12} />
+          </span>
+
+          Accept payments
+        </div>
+
+        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Icon icon="check" size={12} />
+          </span>
+
+          Create deposit addresses
+        </div>
+
+        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Icon icon="check" size={12} />
+          </span>
+
+          Automate payouts
+        </div>
+
+        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Icon icon="check" size={12} />
+          </span>
+
+          Swap assets
+        </div>
+      </div>
+
+      <div className="mt-7 flex flex-wrap items-center gap-3">
+        <a href="/quickstart" className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white no-underline transition hover:opacity-90">
+          Start building
+          <span>→</span>
+        </a>
+
+        <a href="/api-reference" className="inline-flex items-center gap-2 rounded-lg border border-primary px-5 py-2.5 text-sm font-semibold text-primary no-underline transition hover:bg-primary/5">
+          Explore APIs
+        </a>
+      </div>
+
+      <div className="mt-5 text-sm text-gray-500 dark:text-gray-400">
+        Prefer a ready-made integration?{" "}
+
+        <a href="/integrations" className="font-medium text-primary no-underline hover:underline">
+          Explore integrations
+        </a>
+      </div>
+    </div>
+
+    <div>
+      ```bash Create a sandbox payment
+      curl -X POST 'https://api.oxapay.com/v1/payment/invoice' \
+        -H 'merchant_api_key: YOUR_MERCHANT_API_KEY' \
+        -H 'Content-Type: application/json' \
+        -d '{
+          "amount": 49,
+          "currency": "USD",
+          "order_id": "order_1245",
+          "callback_url": "https://example.com/webhooks/oxapay",
+          "sandbox": true
+        }'
+      ```
+    </div>
+  </div>
+</div>
+
 ---
 
 ## What do you want to build?
