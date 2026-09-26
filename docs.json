@@ -1,59 +1,86 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "OxaPay",
+  "name": "Novixo",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
   },
-  "favicon": {
-    "light": "https://oxapay.com/images/icons/favicon/favicon.svg",
-    "dark": "https://oxapay.com/images/icons/favicon/favicon.svg"
-  },
   "navigation": {
-    "global": {
-      "anchors": []
-    },
     "tabs": [
       {
         "tab": "Docs",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Get started",
+            "pages": ["index", "quickstart", "authentication"]
+          },
+          {
+            "group": "Quickstarts",
             "pages": [
-              "introduction",
-              "quickstart"
+              "quickstarts/address-bank",
+              "quickstarts/invoice-payment",
+              "quickstarts/static-address",
+              "quickstarts/collect"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/architecture",
+              "concepts/owner-app",
+              "concepts/address-bank",
+              "concepts/payments",
+              "concepts/payment-states",
+              "concepts/webhooks",
+              "concepts/collect",
+              "concepts/security",
+              "concepts/billing"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API reference",
+        "openapi": "../openapi/openapi.docs.yaml",
         "groups": [
           {
-            "group": "Payment",
+            "group": "Overview",
+            "pages": ["api-reference/overview", "api-reference/payment-webhook"]
+          },
+          {
+            "group": "Payments",
+            "pages": ["POST /payments", "GET /payments/{paymentId}"]
+          },
+          {
+            "group": "Static addresses",
             "pages": [
+              "POST /static-addresses",
+              "GET /static-addresses/{staticAddressId}",
+              "GET /static-addresses/{staticAddressId}/payments"
+            ]
+          },
+          {
+            "group": "Address Bank",
+            "pages": [
+              "GET /owner/address-bank/addresses",
+              "POST /owner/address-bank/addresses",
+              "PATCH /owner/address-bank/addresses/{addressId}"
+            ]
+          },
+          {
+            "group": "Collect",
+            "pages": [
+              "POST /owner/collect/candidates",
+              "POST /owner/collect/prepare",
+              "POST /owner/collect/broadcast"
             ]
           }
         ]
-      },
-      {
-        "tab": "SDKs"
-      },
-      {
-        "tab": "Integrations"
-      },
-      {
-        "tab": "Changelogs"
       }
     ]
   },
-  "logo": {
-    "light": "https://oxapay.com/_next/static/media/logo.b1a318fa.svg",
-    "dark": "https://oxapay.com/_next/static/media/logo.b1a318fa.svg"
-  },
-  "navbar": {},
   "contextual": {
     "options": [
       "copy",
@@ -66,14 +93,7 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
-  },
   "api": {
-    "openapi": "openapi.yaml"
+    "openapi": "../openapi/openapi.docs.yaml"
   }
 }

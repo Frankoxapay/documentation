@@ -1,0 +1,33 @@
+---
+title: "Payment states"
+description: "Payment status values defined by the contract, and the monitoring fields that accompany them."
+---
+
+Novixo watches registered addresses, associates a detected transaction with the payment or static address, and updates state from that transaction and the required confirmations. The merchant does not need to monitor the chain. The contract names the status values below. It does not define the transitions between them.
+
+## Status values
+
+| Status | What the sources support |
+| --- | --- |
+| `pending` | Allowed Payment status. Business Logic does not define this value. |
+| `detected` | Allowed Payment status. Business Logic says Novixo updates state when it detects a transaction. The sources do not define the transition into `detected`. |
+| `confirming` | Allowed Payment status. Business Logic says Novixo tracks confirmations. The sources do not define when the status is `confirming`. |
+| `completed` | Allowed Payment status. Business Logic refers to a final state. The sources do not define when the status becomes `completed`. |
+| `expired` | Allowed Payment status. Also used by the `payment.expired` webhook. Business Logic does not define expiration rules. |
+
+A create or read example that shows one of these values is schema-valid. It is not a lifecycle rule.
+
+## Fields that travel with status
+
+| Field | Contract | Supported meaning |
+| --- | --- | --- |
+| `confirmations` | Optional integer, minimum 0 | Observed confirmation count. |
+| `requiredConfirmations` | Optional integer, minimum 0 | Present on the schema. How it is chosen is not defined. |
+| `amount` | Optional string | Not required on Payment, even though create requires `amount`. Unit and precision are not defined. No rate field exists. |
+| `receivedAmount` | Optional string | Unit is not defined. Relationship to `amount`, including partial payment, is not defined. |
+| `expiresAt` | `date-time` or null | Present on the schema. Expiration behavior is not defined. |
+| `expiresIn` | Optional integer on create, minimum 1 | The unit is not defined. |
+
+`createdAt` is required and uses `date-time`. `updatedAt` is an optional `date-time`.
+
+Webhook event names are listed in [Webhooks](/concepts/webhooks). The contract does not define a required pairing between those names and `status`.

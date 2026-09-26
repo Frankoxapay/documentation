@@ -1,0 +1,42 @@
+---
+title: "Collect"
+description: "Collect consolidates owner-controlled funds. Novixo builds unsigned transactions. The Owner App signs them."
+---
+
+Collect consolidates funds held across the owner's receiving addresses into a destination the owner selects. The owner also defines the collection conditions. Novixo identifies candidates and constructs unsigned transactions. The Owner App verifies and signs them locally. Signed transactions can then be broadcast.
+
+Collect is optional. The owner can move the same funds with the same private keys and never call Collect. The call sequence is [Collect funds](/quickstarts/collect).
+
+Candidate discovery does not transfer funds and does not consume Credit. Novixo selects candidates from asset type, address balance, configured balance limits, estimated network cost, and Gas requirements.
+
+## Native coin
+
+For a native blockchain asset, Novixo identifies eligible addresses and builds unsigned transfers from those addresses to the selected destination. Each transaction must be signed by the Owner App before broadcast.
+
+## Tokens and the Gas Address
+
+A token transfer may require the network's native asset to pay Gas. A supported network may therefore have a Gas Address owned by the same business. That address is reserved for Collect. It must never be assigned as a customer payment address.
+
+Novixo may coordinate Gas funding and token-transfer transactions. The Gas funds and the receiving addresses stay owner-controlled. Novixo must never use its own operational addresses to fund customer Gas, and it must never mix financial flows between customers. The broader separation rule is in [Security and trust](/concepts/security).
+
+The contract does not define a Gas Address resource. `CollectCandidate.requiresGasFunding` is a boolean. The schema does not define the funding steps. Unsigned transactions do not include a transaction-type field that distinguishes Gas funding from token transfer.
+
+## Request filters
+
+`POST /owner/collect/candidates` requires `asset` and `network`. Optional `minBalance` and `maxBalance` are strings with no defined unit.
+
+`strategy` is one of `eligible`, `with-gas`, `without-gas`, or `smart`.
+
+Smart Collect may select candidates using transferable value, Gas requirements, transaction fees, and remaining dust, in order to optimize the net value collected. The contract does not define `eligible`, `with-gas`, or `without-gas`.
+
+`POST /owner/collect/prepare` requires `destination` and `candidateIds`. Business Logic says the owner defines the destination. The contract accepts `destination` on this request and does not define a stored destination or a stored conditions resource. It also does not define which candidate field `candidateIds` matches.
+
+`payload` and `signedPayload` are strings. Encodings are not defined.
+
+## Broadcast and Credit
+
+`POST /owner/collect/broadcast` returns HTTP 202 when signed transactions are accepted for broadcast. Acceptance is not a defined confirmation that the network included the transaction. Each result item has a `status` string with no allowed values, plus an optional `transactionHash` with no defined format.
+
+Broadcasting signed Collect transactions may consume Credit. Reviewing candidates does not. Credit is specified in [Plans, Credit, and fees](/concepts/billing).
+
+Network Fees and Gas are blockchain costs. They are not Novixo revenue.

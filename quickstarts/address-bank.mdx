@@ -1,0 +1,80 @@
+---
+title: "Register an Address Bank"
+description: "Register public addresses from the Owner App, list them, and retire an address."
+---
+
+The Address Bank is the set of public addresses the Owner App generates and Novixo registers. This page registers, lists, and retires those public records. What the Address Bank stores, and what the state values mean, is defined in [Address Bank](/concepts/address-bank).
+
+<Note>
+The contract does not define a server URL. Examples include the method, path, and `X-Owner-API-Key` header only.
+</Note>
+
+## Before you start
+
+Create or import a Seed in the Owner App and derive addresses locally. Private keys stay on the device. See [Owner App](/concepts/owner-app). You need an Owner API Key. See [Authentication](/authentication).
+
+## Register, list, and retire
+
+<Steps>
+  <Step title="Register public addresses">
+    `POST /owner/address-bank/addresses` requires `addresses` with at least one item. Each item requires `network` and `address`.
+
+    ```bash
+    curl -X POST /owner/address-bank/addresses \
+      -H "Content-Type: application/json" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY" \
+      -d '{"addresses":[{"network":"example_network","address":"example_address"}]}'
+    ```
+
+    Optional `derivationIndex` is an integer of at least 0. Optional `fingerprint` is a string. Their algorithms and formats are not defined.
+
+    HTTP 201 returns an address list. The sample below uses `state` `available` because that value is allowed. The contract does not define the state returned when an address is registered.
+
+    ```json
+    {
+      "items": [
+        {
+          "id": "example_address_id",
+          "network": "example_network",
+          "address": "example_address",
+          "state": "available"
+        }
+      ],
+      "nextCursor": null
+    }
+    ```
+
+    HTTP 409 means Conflict. The contract does not define the conflict condition. Business Logic says address-generation metadata is stored to prevent duplicate derivation, and it does not bind that rule to HTTP 409.
+  </Step>
+  <Step title="List addresses">
+    `GET /owner/address-bank/addresses` returns the same list shape. Optional `limit` is an integer from 1 to 100. Optional `cursor` is a string. No default page size or cursor format is defined.
+
+    ```bash
+    curl "/owner/address-bank/addresses?limit=1" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY"
+    ```
+  </Step>
+  <Step title="Retire an address">
+    `PATCH /owner/address-bank/addresses/{addressId}` accepts only `retired`. A retired address is no longer assigned to new payments.
+
+    ```bash
+    curl -X PATCH /owner/address-bank/addresses/example_address_id \
+      -H "Content-Type: application/json" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY" \
+      -d '{"state":"retired"}'
+    ```
+
+    HTTP 200 returns the address. This sample uses `retired` because that is the only request value.
+
+    ```json
+    {
+      "id": "example_address_id",
+      "network": "example_network",
+      "address": "example_address",
+      "state": "retired"
+    }
+    ```
+
+    The contract does not define an operation that sets `available`, `assigned`, or `used`.
+  </Step>
+</Steps>

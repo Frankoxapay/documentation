@@ -1,0 +1,24 @@
+---
+title: "Owner App"
+description: "The Owner App keeps the Seed and private keys on the owner's device and signs transactions locally."
+---
+
+The Owner App is the local, open-source application that holds cryptographic authority. Novixo does not custody keys in its place.
+
+## Seed and private keys
+
+The Owner App creates or imports the owner's Seed and stores it locally in encrypted form. Private keys never leave the owner's device. Developer API access must not expose the Seed or those keys. See [Authentication](/authentication).
+
+If Novixo is unavailable, assets remain under the owner's control and can be recovered with the Seed. The trust consequences are specified in [Security and trust](/concepts/security).
+
+## Public addresses
+
+The Owner App derives addresses locally. Only public information is synchronized to Novixo, through [Address Bank](/concepts/address-bank) registration.
+
+The contract can carry `derivationIndex` (an integer of at least 0) and `fingerprint` (a string) when an address is registered. Business Logic says address-generation metadata is stored to prevent duplicate derivation. The derivation algorithm and fingerprint format are not defined. This documentation does not name an Owner App command or a download URL. Neither source defines them.
+
+## Local signing
+
+When an outgoing transaction is required, Novixo prepares an unsigned transaction. The Owner App verifies the destination and the relevant transaction parameters, then signs locally. Novixo cannot produce a valid outgoing transaction without that signature.
+
+Collect uses that sequence. The HTTP calls are in [Collect funds](/quickstarts/collect). The owner can also move funds with the same private keys without using Collect.

@@ -1,0 +1,37 @@
+---
+title: "Webhooks"
+description: "Novixo notifies the merchant about payment lifecycle events. Configuration and signing are not defined."
+---
+
+Webhooks notify the merchant about payment lifecycle events without continuous polling. They belong to the Payment domain, not to one payment method. Invoice payments and static-address payments therefore share this event model. There is no static-address-specific event type.
+
+Business Logic says an event may be sent when a transaction is detected, when confirmations change, or when the payment reaches a final state. The payload contains the payment identifier, relevant transaction information, and the current payment state.
+
+The contract defines one callback, `paymentEvent`, as `POST` with `PaymentWebhookEvent`. The rendered contract is [Payment event webhook](/api-reference/payment-webhook).
+
+## Event names
+
+| `type` | What the sources support |
+| --- | --- |
+| `payment.detected` | Contract value. Aligns with detection in Business Logic. No formal mapping to `payment.status` is defined. |
+| `payment.confirmation_updated` | Contract value. Aligns with confirmation changes in Business Logic. No formal mapping is defined. |
+| `payment.completed` | Contract value. Business Logic refers to a final state and does not limit that state to this name. |
+| `payment.expired` | Contract value. Business Logic does not define expiration. |
+
+The documentation example pairs `payment.detected` with payment status `detected`. That pair is schema-valid. The contract does not require it.
+
+## Payload
+
+`PaymentWebhookEvent` requires `id`, `type`, `payment`, and `createdAt`. `payment` is a Payment object, specified in [Payment states](/concepts/payment-states). `createdAt` is `date-time`.
+
+The event `id` and `payment.id` are both strings. The contract does not say whether they are equal.
+
+<Warning>
+Business Logic requires relevant transaction information in the payload. The Payment schema has no transaction hash, transaction id, or transaction list. That difference is unresolved. Do not expect a transaction identifier unless it is added to the contract.
+</Warning>
+
+## Delivery
+
+The merchant response defined for the callback is HTTP 200, described as webhook received. No other merchant status is defined.
+
+Webhook configuration is part of the Payment domain. The contract does not include an operation to register a URL, set a signing secret, or describe retries. The callback itself has no security scheme.

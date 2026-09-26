@@ -1,0 +1,24 @@
+---
+title: "Security and trust"
+description: "Novixo requires operational trust. It does not take custody, and it cannot sign outgoing transfers."
+---
+
+Novixo requires operational trust, not financial custody. A business relies on Novixo to allocate addresses, detect transactions, maintain payment state, and deliver webhooks. Novixo cannot independently move customer funds. Private keys and signing stay with the owner, in the [Owner App](/concepts/owner-app).
+
+The non-custodial boundary is permanent. Novixo may coordinate and construct operations. Only the owner authorizes movement of funds by signing locally.
+
+## What the server stores
+
+The server stores the public and operational information required to run the payment infrastructure. That includes public addresses and the address-generation metadata used to prevent duplicate derivation. It does not include private keys. The Address Bank does not store them either. See [Address Bank](/concepts/address-bank).
+
+Developer access is a separate credential from owner access and must not become a path to the Seed or to signing. Header names are specified in [Authentication](/authentication).
+
+## Separation of funds
+
+Novixo's operational infrastructure, each customer's funds, and the funds of other customers stay separate. Funds in Address Bank addresses belong to the business. The revenue boundary for those funds is specified in [Plans, Credit, and fees](/concepts/billing).
+
+During Collect, Novixo must not fund customer Gas from its own operational addresses and must not mix financial flows between customers. The Gas Address constraint is specified in [Collect](/concepts/collect).
+
+## If Novixo is unavailable
+
+Blockchain assets remain under the owner's control. They can be recovered with the owner's Seed. Incoming payments already sent to those addresses are on-chain records, not balances held by Novixo.

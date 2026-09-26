@@ -1,0 +1,63 @@
+---
+title: "Accept an invoice payment"
+description: "Create a payment for one order and read it with the Developer API Key."
+---
+
+An invoice payment is the Invoice / White-label Payment flow. Novixo records the payment and assigns an address from the owner's Address Bank. The payer sends cryptocurrency to that address. Funds stay on the owner's address. Novixo does not custody them and does not sign the incoming transfer.
+
+White-label presentation is not defined. The contract operation is `POST /payments`.
+
+<Warning>
+The contract does not define a server URL. Examples include the method, path, and `X-Developer-API-Key` header only. The raw contract states that this header name is a synthetic test-contract choice.
+</Warning>
+
+## Before you start
+
+You need a Developer API Key. See [Authentication](/authentication). The owner must already have an Address Bank with an address Novixo can assign. See [Register an Address Bank](/quickstarts/address-bank). The contract does not define eligibility rules or the response when no address can be assigned.
+
+## Create the payment and read it
+
+<Steps>
+  <Step title="Create the payment">
+    `POST /payments` requires `asset`, `network`, and `amount`. All three are strings. No asset catalog, network catalog, or amount unit is defined.
+
+    ```bash
+    curl -X POST /payments \
+      -H "Content-Type: application/json" \
+      -H "X-Developer-API-Key: YOUR_DEVELOPER_API_KEY" \
+      -d '{"asset":"example_asset","network":"example_network","amount":"1"}'
+    ```
+
+    Business Logic says the response includes amount or rate information. The request has `amount`. The Payment schema has an optional `amount`. There is no rate field.
+
+    Optional `expiresIn` is an integer of at least 1, with no defined unit. Optional `metadata` has no defined properties.
+
+    HTTP 201 returns a Payment. Give the payer `address`. The payment identifier is `id`. Business Logic also says a tracking identifier is returned; the contract does not define a separate tracking field.
+
+    ```json
+    {
+      "id": "example_payment_id",
+      "status": "pending",
+      "asset": "example_asset",
+      "network": "example_network",
+      "address": "example_address",
+      "createdAt": "2026-01-01T00:00:00Z"
+    }
+    ```
+
+    `pending` is one allowed status. The contract does not say that creation always returns `pending`.
+  </Step>
+  <Step title="Have the payer transfer on-chain">
+    The payer sends the asset to the returned `address` on the returned `network`. Novixo monitors registered addresses, associates a detected transaction with the payment, and tracks confirmations. Your integration does not need to scan the chain itself.
+  </Step>
+  <Step title="Read the payment">
+    `GET /payments/{paymentId}` returns the Payment schema.
+
+    ```bash
+    curl /payments/example_payment_id \
+      -H "X-Developer-API-Key: YOUR_DEVELOPER_API_KEY"
+    ```
+
+    Status values, amounts, and confirmation fields are specified in [Payment states](/concepts/payment-states). To receive events without polling, use [Webhooks](/concepts/webhooks).
+  </Step>
+</Steps>

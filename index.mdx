@@ -1,212 +1,158 @@
 ---
-title: "Introduction"
+title: "Novixo Developer Docs"
 sidebarTitle: "Overview"
-mode: "wide"
+description: "Novixo is non-custodial cryptocurrency payment infrastructure for receiving, monitoring, and consolidating blockchain payments."
+mode: wide
 ---
 
-OxaPay is a cryptocurrency payment gateway that lets businesses receive payments, send funds, exchange cryptocurrencies, and access market information. Developers call these capabilities through separate API keys for each service.
-
----
+Novixo is non-custodial cryptocurrency payment infrastructure. A business can receive, monitor, and consolidate blockchain payments while the owner keeps the Seed, private keys, and ownership of the funds. Developers integrate through the HTTP API. That API contract states it is a synthetic fixture, not an authoritative production specification. Transport details are documented in [API overview](/api-reference/overview).
 
 ## What do you want to build?
 
-Choose the workflow that matches the outcome you want to build with OxaPay.
+Choose the outcome that matches the integration you are building.
 
 <Columns cols={2}>
-  <Card title="Accept payments" icon="credit-card" href="/quickstart#accept-a-customer-payment" cta="Accept payments" arrow>
-    Create invoices, white-label checkouts, or static addresses and credit completed payments to your OxaPay account.
+  <Card title="Accept an invoice payment" icon="code" href="/quickstarts/invoice-payment" cta="Create a payment" arrow>
+    Create a payment for one order and give the payer an address the business owns.
   </Card>
-
-  <Card title="Send payouts" icon="wallet" href="/quickstart#send-a-cryptocurrency-payout" cta="Send payouts" arrow>
-    Send cryptocurrency from your OxaPay balance to external addresses through automated payout requests.
+  <Card title="Accept static-address payments" icon="brackets-curly" href="/quickstarts/static-address" cta="Create a static address" arrow>
+    Assign a persistent address that can receive more than one incoming transaction.
   </Card>
-
-  <Card title="Exchange cryptocurrencies" icon="arrow-right-arrow-left" href="/quickstart#exchange-one-cryptocurrency" cta="Exchange assets" arrow>
-    Exchange one supported cryptocurrency for another from your OxaPay balance through the dashboard or API.
+  <Card title="Register an Address Bank" icon="lock" href="/quickstarts/address-bank" cta="Register addresses" arrow>
+    Synchronize public addresses from the Owner App so Novixo can assign them.
   </Card>
-
-  <Card title="Read market data" icon="chart-line" href="/quickstart#general-apis" cta="View market data" arrow>
-    Retrieve supported assets, networks, prices, and exchange rates needed by your integration.
+  <Card title="Collect funds" icon="box" href="/quickstarts/collect" cta="Collect funds" arrow>
+    Build unsigned transfers to a destination the owner chooses, then sign them locally.
   </Card>
 </Columns>
 
----
+## Core workflow
 
-## Accept a payment with OxaPay
-
-The merchant creates a payment and registers a callback URL. OxaPay reports lifecycle changes by webhook so the merchant backend can synchronize the transaction state.
+The owner prepares addresses, the developer creates a payment or a static address, and the payer settles on the blockchain. Collect is optional and still requires the owner's signature.
 
 <div className="not-prose my-8 overflow-x-auto">
-  <div className="flex min-w-[880px] items-start justify-between gap-2">
-    <div className="w-32 text-center">
+  <div className="flex min-w-[1080px] items-start justify-between gap-2">
+    <div className="w-36 text-center">
       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
-        <Icon icon="credit-card" size={20} />
+        <Icon icon="box" size={20} />
       </div>
-
       <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        Create payment
+        Prepare addresses
       </div>
-
       <div className="mt-1 text-xs leading-5 text-gray-500">
-        Merchant creates the payment
+        The Owner App creates the Seed and syncs public addresses.
       </div>
     </div>
-
     <div className="mt-6 flex-1 border-t border-dashed border-primary/30 dark:border-primary/20" />
-
-    <div className="w-32 text-center">
+    <div className="w-36 text-center">
       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
-        <Icon icon="link" size={20} />
+        <Icon icon="code" size={20} />
       </div>
-
       <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        Register callback
+        Assign an address
       </div>
-
       <div className="mt-1 text-xs leading-5 text-gray-500">
-        Provide the callback URL
+        Novixo assigns an owner-controlled address and returns it.
       </div>
     </div>
-
     <div className="mt-6 flex-1 border-t border-dashed border-primary/30 dark:border-primary/20" />
-
-    <div className="w-32 text-center">
+    <div className="w-36 text-center">
       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
-        <Icon icon="arrow-right-arrow-left" size={20} />
+        <Icon icon="check" size={20} />
       </div>
-
       <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        State changes
+        Payer transfers
       </div>
-
       <div className="mt-1 text-xs leading-5 text-gray-500">
-        OxaPay updates payment status
+        Funds move on the blockchain to that address.
       </div>
     </div>
-
     <div className="mt-6 flex-1 border-t border-dashed border-primary/30 dark:border-primary/20" />
-
-    <div className="w-32 text-center">
+    <div className="w-36 text-center">
       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
         <Icon icon="webhook" size={20} />
       </div>
-
       <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        Send webhook
+        Report state
       </div>
-
       <div className="mt-1 text-xs leading-5 text-gray-500">
-        OxaPay notifies your backend
+        Novixo tracks confirmations and notifies the merchant.
       </div>
     </div>
-
     <div className="mt-6 flex-1 border-t border-dashed border-primary/30 dark:border-primary/20" />
-
-    <div className="w-32 text-center">
+    <div className="w-36 text-center">
       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
-        <Icon icon="circle-check" size={20} />
+        <Icon icon="lock" size={20} />
       </div>
-
       <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        Process update
+        Collect if chosen
       </div>
-
       <div className="mt-1 text-xs leading-5 text-gray-500">
-        Merchant syncs the order
+        The Owner App signs. Novixo cannot sign alone.
       </div>
     </div>
   </div>
 </div>
 
----
+## Getting started
 
-## Everything you need to build with OxaPay
+Set up owner-controlled addresses, create a payment or a static address, and read the result.
 
-Obtain a service API key, create a payment, and handle the webhook.
+<Columns cols={2}>
+  <Card title="1. Authenticate" icon="lock">
+    Use the Owner API Key for address and Collect calls, and the Developer API Key for payments.
 
-<Columns cols={3}>
-  <Card title="1. Get the Merchant API key" icon="lock">
-    Copy the Merchant API Key from the Merchant Service section to authenticate payment requests.
-
-    [Merchant API key →](/introduction#developer-essentials)
+    [Authentication →](/authentication)
   </Card>
+  <Card title="2. Register addresses" icon="box">
+    Derive addresses in the Owner App and register the public values.
 
-  <Card title="2. Create the payment" icon="credit-card">
-    Create an invoice, white-label payment, or static address and register a callback URL for updates.
-
-    [Payment quickstart →](/quickstart#accept-a-customer-payment)
+    [Address Bank →](/quickstarts/address-bank)
   </Card>
+  <Card title="3. Choose a payment flow" icon="code">
+    Create an invoice payment or a static address. Both flows need an Address Bank.
 
-  <Card title="3. Handle the payment webhook" icon="webhook">
-    Receive payment status notifications at your endpoint and update the order in your system.
+    [Quickstart →](/quickstart)
+  </Card>
+  <Card title="4. Read the result" icon="book-open">
+    Use the payment resource to see the status the contract defines.
 
-    [Webhook updates →](/introduction#developer-essentials)
+    [Payment states →](/concepts/payment-states)
   </Card>
 </Columns>
 
 <div className="not-prose my-6 flex justify-center">
   <a href="/quickstart" className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white no-underline transition hover:bg-primary/90">
-    Start the quickstart
+    Open the quickstart
     <span className="ml-2">→</span>
   </a>
 </div>
 
----
-
 ## Choose how you want to integrate
 
-Use the level of abstraction that best fits your team and product.
+The supported integration surface is the HTTP API.
 
-<Columns cols={3}>
-  <Card title="REST API" icon="code" href="/api-reference" cta="Explore API" arrow>
-    Build directly with OxaPay's HTTP APIs for maximum control over supported workflows.
-  </Card>
-
-  <Card title="SDKs" icon="box" href="/sdks" cta="View SDKs" arrow>
-    Integrate OxaPay using official or supported SDKs for available development environments.
-  </Card>
-
-  <Card title="Plugins & apps" icon="puzzle-piece" href="/integrations" cta="Browse integrations" arrow>
-    Use ready-made plugins, apps, or automation integrations instead of building directly with the API.
+<Columns cols={1}>
+  <Card title="HTTP API" icon="code" href="/api-reference/overview" cta="View the API overview" arrow>
+    Call payment and static-address operations with the Developer API Key. Call Address Bank and Collect operations with the Owner API Key.
   </Card>
 </Columns>
-
----
-
-## Developer essentials
-
-Everything you need to move from experimentation to a reliable production integration.
-
-<Columns cols={3}>
-  <Card title="Authentication" icon="lock" href="/introduction#developer-essentials" arrow>
-    Learn how OxaPay authenticates API requests and how credentials should be used securely.
-  </Card>
-
-  <Card title="Webhooks" icon="webhook" href="/introduction#developer-essentials" arrow>
-    Receive asynchronous events and status updates from OxaPay in your backend.
-  </Card>
-
-  <Card title="API reference" icon="book-open" href="/api-reference" arrow>
-    Explore endpoints, authentication requirements, parameters, responses, and request examples.
-  </Card>
-
-  <Card title="General APIs" icon="brackets-curly" href="/quickstart#general-apis" arrow>
-    Access shared information and supporting APIs used across OxaPay integrations.
-  </Card>
-</Columns>
-
----
 
 ## Next steps
 
-Start with the quickstart, or review how each service is authenticated.
+Continue with the workflow hub, credentials, webhooks, or the contract overview.
 
 <Columns cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart" arrow>
-    Follow a practical path to your first working OxaPay integration.
+  <Card title="Quickstart" icon="code" href="/quickstart" arrow>
+    Pick an end-to-end workflow and open its procedure.
   </Card>
-
-  <Card title="Authentication" icon="lock" href="/introduction#developer-essentials" arrow>
-    Get the Merchant, Payout, or General API key for the service you call.
+  <Card title="Authentication" icon="lock" href="/authentication" arrow>
+    See which key and header each operation requires.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/concepts/webhooks" arrow>
+    Receive payment lifecycle events on your server.
+  </Card>
+  <Card title="API reference" icon="book-open" href="/api-reference/overview" arrow>
+    Review paths, errors, pagination, and the contract limits.
   </Card>
 </Columns>

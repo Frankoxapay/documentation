@@ -1,0 +1,24 @@
+---
+title: "Address Bank"
+description: "The Address Bank is the owner's public addresses and their operational state. Private keys are not stored."
+---
+
+The Address Bank is the collection of public blockchain addresses the Owner App generates and registers with Novixo. Novixo manages operational state for each address: availability, payment assignment, usage, and retirement. When a payment or static address needs a receiving address, Novixo selects an eligible address from the owner's Address Bank and associates it with that payment or customer.
+
+Private keys are never stored in the Address Bank or on Novixo servers. The server stores public addresses and the address-generation metadata required to prevent duplicate derivation.
+
+Registration, listing, and retirement calls are in [Register an Address Bank](/quickstarts/address-bank).
+
+## States
+
+Business Logic names four operational categories: availability, payment assignment, usage, and retirement. The contract enumerates `available`, `assigned`, `used`, and `retired`. The sources do not define the transitions between those values.
+
+`PATCH /owner/address-bank/addresses/{addressId}` accepts only `retired`. The owner retires an address so Novixo no longer assigns it to new payments. The contract does not define operations that set `available`, `assigned`, or `used`. It also does not define the state returned when an address is first registered.
+
+A static address can receive multiple incoming transactions. The contract does not define how that lifecycle lines up with Address Bank states such as `assigned` or `used`. Static addresses are specified in [Payments](/concepts/payments).
+
+## What you register
+
+Each registered item requires `network` and `address`. Both are strings. No network catalog is defined. An address record requires `id`, `network`, `address`, and `state`.
+
+HTTP 409 on registration means Conflict. The condition is not defined.

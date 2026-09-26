@@ -1,0 +1,40 @@
+---
+title: "Architecture"
+description: "Novixo separates payment operations from asset control. The owner keeps keys, funds, and signing."
+---
+
+Novixo separates payment operations from asset control. The platform does the operational work of a payment gateway. Cryptographic authority stays with the owner. No feature may give Novixo direct or indirect authority to transfer customer funds on its own.
+
+## Platform and Owner App
+
+The Novixo Platform allocates addresses, creates payments, monitors blockchains, detects transactions, tracks confirmations, stores payment status, delivers webhooks, keeps balance metadata, and constructs unsigned transactions.
+
+The [Owner App](/concepts/owner-app) is a core product component, not an auxiliary tool. It creates or imports the Seed, stores private keys locally, generates addresses, validates and signs transactions locally, shows balances, and authorizes Collect. It must remain usable for an owner who is not writing the integration, while developers still get a familiar API.
+
+Network-specific scanning and transaction construction stay behind the product. Merchants work with payment concepts. The contract still requires `asset` and `network` strings, and it does not list supported networks.
+
+## Roles
+
+| Actor | Responsibility |
+| --- | --- |
+| Owner | Controls the Seed, private keys, address generation, the Collect destination, and signing. |
+| Developer | Integrates Novixo into a website, application, or backend. Manages payments through the Developer API. Has no signing authority. |
+| Payer | Sends cryptocurrency to the blockchain address assigned to the payment. |
+| Novixo Platform | Coordinates payment operations and monitoring. Has no financial signing authority. |
+| Blockchain Network | Records asset transfers. This is the settlement layer. |
+
+Credential separation is specified in [Authentication](/authentication).
+
+## Boundaries
+
+Novixo is payment infrastructure. It is not a custodial wallet, a cryptocurrency exchange, an asset-conversion service, a raw node or RPC service, or a fully decentralized protocol.
+
+Its product value is owner-controlled assets, a gateway-style developer experience, managed address allocation, blockchain monitoring, webhooks, and practical Collect. Novixo may coordinate and construct operations. Only the owner can authorize movement of funds, by signing locally.
+
+## Where the other rules live
+
+Pricing stays separate from payment value and from blockchain fees. That model is specified in [Plans, Credit, and fees](/concepts/billing).
+
+Novixo's operational infrastructure, each customer's funds, and other customers' funds stay separate. That rule is specified in [Security and trust](/concepts/security).
+
+The end-to-end overview is on the [introduction](/). [Quickstart](/quickstart) routes the same sequence into procedures: register an Address Bank, create a payment or a static address, then Collect only if the owner chooses.

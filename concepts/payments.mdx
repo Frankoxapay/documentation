@@ -1,0 +1,37 @@
+---
+title: "Payments"
+description: "Novixo supports invoice payments and static addresses. Both receive funds at owner-controlled addresses."
+---
+
+The Payment domain receives cryptocurrency at addresses the business owns. Novixo initially supports two primary flows: Invoice / White-label Payment and Static Address. Procedures live in [Accept an invoice payment](/quickstarts/invoice-payment) and [Accept payments at a static address](/quickstarts/static-address).
+
+Novixo monitors supported networks for incoming transactions to registered Address Bank addresses, associates a relevant transaction with the payment or static address, and updates state from the transaction and the required confirmations. The merchant does not have to implement network-specific detection. Status values are specified in [Payment states](/concepts/payment-states). Notifications are specified in [Webhooks](/concepts/webhooks).
+
+Payment funds remain on the owner's blockchain addresses during monitoring.
+
+## Invoice / White-label Payment
+
+The merchant creates a payment for a specific order or transaction. Novixo records it and assigns an available address from the Address Bank. The contract operation is `POST /payments`, authenticated with the Developer API Key. The request requires `asset`, `network`, and `amount`.
+
+Business Logic says the API returns the payment address, a tracking identifier, amount or rate information, and expiration data.
+
+- The contract returns `address`.
+- The contract identifier is `id`. It does not define a separate tracking-identifier field.
+- The request requires `amount`. `Payment.amount` is optional. There is no rate or conversion field. This difference is unresolved.
+- Expiration fields exist: optional request `expiresIn` and Payment `expiresAt`. Expiration behavior is specified only as those fields plus status `expired`.
+
+White-label presentation, hosted checkout, and branding are not defined.
+
+The contract does not define what happens when no eligible address can be assigned. It also does not define which addresses are eligible.
+
+## Static Address
+
+A static address stays associated with a customer, account, or business use case and can receive multiple incoming transactions. `POST /static-addresses` requires `asset` and `network`. The response includes the assigned `address`.
+
+Optional `reference` is a string. The sources do not define it as the customer or account identifier. Optional `metadata` on both flows is an object with no defined properties.
+
+`status` is `active` or `retired`. No operation sets a static address to `retired`. Retiring an Address Bank address is a different operation.
+
+`GET /static-addresses/{staticAddressId}/payments` returns Payment resources. The contract does not define whether each blockchain transaction becomes one Payment, or how those records accumulate. There is no separate static-address event type. Webhooks carry a Payment.
+
+`asset` and `network` are unconstrained strings. No supported catalog is defined. Amount units are not defined.

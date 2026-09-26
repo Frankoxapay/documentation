@@ -1,0 +1,101 @@
+---
+title: "Collect funds"
+description: "Find Collect candidates, prepare unsigned transactions, sign them locally, and submit them for broadcast."
+---
+
+Collect moves funds from owner-controlled receiving addresses to a destination the owner selects. It is optional. Candidate discovery does not transfer funds. Novixo builds unsigned transactions. The Owner App must verify and sign them before they can be broadcast.
+
+Gas Address rules, strategy values, and Credit are defined in [Collect](/concepts/collect). This page is the call sequence only.
+
+<Warning>
+The contract does not define a server URL. Examples include the method, path, and `X-Owner-API-Key` header only.
+</Warning>
+
+## Before you start
+
+You need an Owner API Key and addresses that already hold funds. Signing happens in the [Owner App](/concepts/owner-app), not in these HTTP calls.
+
+## Find, sign, and broadcast
+
+<Steps>
+  <Step title="Find candidates">
+    `POST /owner/collect/candidates` requires `asset` and `network`. Reviewing candidates does not consume Credit.
+
+    ```bash
+    curl -X POST /owner/collect/candidates \
+      -H "Content-Type: application/json" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY" \
+      -d '{"asset":"example_asset","network":"example_network"}'
+    ```
+
+    Optional filters are `minBalance`, `maxBalance`, and `strategy`. `strategy` allows `eligible`, `with-gas`, `without-gas`, and `smart`. Business Logic describes `smart` only. The other three values are not defined. See [Collect](/concepts/collect).
+
+    HTTP 200 returns candidates. A candidate requires `addressId`, `address`, `asset`, `network`, and `balance`. `balance` is a string with no defined unit.
+
+    ```json
+    {
+      "items": [
+        {
+          "addressId": "example_address_id",
+          "address": "example_address",
+          "asset": "example_asset",
+          "network": "example_network",
+          "balance": "1"
+        }
+      ]
+    }
+    ```
+  </Step>
+  <Step title="Prepare unsigned transactions">
+    `POST /owner/collect/prepare` requires `destination` and `candidateIds` with at least one string. The contract does not define which candidate field `candidateIds` uses. It also does not define a stored destination resource. Pass the destination on this request.
+
+    ```bash
+    curl -X POST /owner/collect/prepare \
+      -H "Content-Type: application/json" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY" \
+      -d '{"destination":"example_destination","candidateIds":["example_id"]}'
+    ```
+
+    HTTP 200 returns unsigned transactions. `payload` is a string. Its encoding is not defined.
+
+    ```json
+    {
+      "items": [
+        {
+          "id": "example_unsigned_transaction_id",
+          "network": "example_network",
+          "sourceAddress": "example_address",
+          "destinationAddress": "example_destination",
+          "payload": "example_payload"
+        }
+      ]
+    }
+    ```
+  </Step>
+  <Step title="Sign locally">
+    In the Owner App, verify the destination and the transaction parameters, then sign. Novixo cannot produce a valid outgoing transaction without that signature. The contract does not define the Owner App command or the `signedPayload` encoding.
+  </Step>
+  <Step title="Submit signed transactions">
+    `POST /owner/collect/broadcast` requires `transactions` with at least one item. Each item requires `id` and `signedPayload`. Broadcasting signed Collect transactions may consume Credit.
+
+    ```bash
+    curl -X POST /owner/collect/broadcast \
+      -H "Content-Type: application/json" \
+      -H "X-Owner-API-Key: YOUR_OWNER_API_KEY" \
+      -d '{"transactions":[{"id":"example_unsigned_transaction_id","signedPayload":"example_signed_payload"}]}'
+    ```
+
+    HTTP 202 means the signed transactions were accepted for broadcast. It does not define chain inclusion. Item `status` is a string with no allowed values. The sample value `example_status` is a placeholder, not a product status.
+
+    ```json
+    {
+      "items": [
+        {
+          "id": "example_unsigned_transaction_id",
+          "status": "example_status"
+        }
+      ]
+    }
+    ```
+  </Step>
+</Steps>

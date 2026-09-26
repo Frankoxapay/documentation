@@ -1,0 +1,55 @@
+---
+title: "API overview"
+description: "Cross-cutting Novixo HTTP contract facts. Endpoint behavior is generated from the documentation OpenAPI."
+---
+
+The HTTP contract is `openapi/openapi.docs.yaml`, generated from the raw fixture without changing paths, methods, schemas, security, or status codes. Use the API reference navigation for each operation. This page covers only the facts that apply across operations.
+
+<Warning>
+The raw contract states that it is a synthetic test fixture and not an authoritative production API specification. Paths, header names, schemas, and status codes in that fixture are synthetic choices where Business Logic did not define them. This documentation reproduces that contract and does not replace it with an inferred production API.
+</Warning>
+
+`info.version` is `0.1.0`. No versioning policy is defined. No server URL is defined. Request and response bodies that declare a content type use `application/json`.
+
+Amount, balance, and fee fields are strings. Their unit and precision are not defined. On payment creation, optional `expiresIn` is an integer of at least 1. Its unit is not defined.
+
+Credential separation and the two header names are specified in [Authentication](/authentication).
+
+## Operations
+
+| Method and path | Credential |
+| --- | --- |
+| `POST /payments` | Developer API Key |
+| `GET /payments/{paymentId}` | Developer API Key |
+| `POST /static-addresses` | Developer API Key |
+| `GET /static-addresses/{staticAddressId}` | Developer API Key |
+| `GET /static-addresses/{staticAddressId}/payments` | Developer API Key |
+| `GET /owner/address-bank/addresses` | Owner API Key |
+| `POST /owner/address-bank/addresses` | Owner API Key |
+| `PATCH /owner/address-bank/addresses/{addressId}` | Owner API Key |
+| `POST /owner/collect/candidates` | Owner API Key |
+| `POST /owner/collect/prepare` | Owner API Key |
+| `POST /owner/collect/broadcast` | Owner API Key |
+| `paymentEvent` webhook | None on the callback |
+
+The webhook contract is rendered in [Payment event webhook](/api-reference/payment-webhook). Behavior is specified in [Webhooks](/concepts/webhooks).
+
+## Errors
+
+Error responses use this object. `code` and `message` are required strings. `details` is an optional object. No code catalog is defined, and the contract does not define which condition returns which status beyond the response name.
+
+| HTTP status | Response name |
+| --- | --- |
+| 400 | Bad request |
+| 401 | Unauthorized |
+| 404 | Not found |
+| 409 | Conflict |
+| 422 | Unprocessable entity |
+
+Not every operation returns every status. The endpoint reference lists the statuses that operation declares. A schema-valid error sample is `{"code":"example_code","message":"Example message."}`. Those strings are placeholders, not product codes.
+
+## Pagination
+
+`GET /owner/address-bank/addresses` and `GET /static-addresses/{staticAddressId}/payments` accept optional `limit` and `cursor`. `limit` is an integer from 1 to 100. No default is defined. `cursor` is a string with no format. List responses require `items` and may include `nextCursor` as a string or null.
+
+Idempotency is not defined for any operation. Retry behavior for webhooks is not defined.

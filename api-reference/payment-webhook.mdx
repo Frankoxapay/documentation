@@ -1,0 +1,12 @@
+---
+title: "Payment event webhook"
+sidebarTitle: "Payment webhook"
+description: "OpenAPI callback Novixo sends for a payment lifecycle event."
+openapi: "../openapi/openapi.docs.yaml webhook paymentEvent"
+---
+
+This page renders the `paymentEvent` webhook from the documentation OpenAPI. Event meaning, the unresolved transaction-information gap, and the missing configuration operation are specified in [Webhooks](/concepts/webhooks).
+
+<Warning>
+Business Logic says the payload includes relevant transaction information. `PaymentWebhookEvent.payment` has no transaction hash or transaction list. The contract also does not define a signature or a retry policy. The sample that pairs `payment.detected` with status `detected` is not a required mapping.
+</Warning>

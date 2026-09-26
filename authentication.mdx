@@ -1,0 +1,50 @@
+---
+title: "Authentication"
+description: "Novixo uses an Owner API Key and a Developer API Key. The contract maps them to two headers."
+---
+
+Novixo uses two credentials. The Owner API Key connects the Owner App to the owner's account and address infrastructure. The Developer API Key authenticates payment-related operations. Developer access must never expose the Seed, private keys, or independent authority to transfer assets.
+
+The raw OpenAPI contract maps those credentials to headers. Business Logic does not define header names. The same contract states that its header names are synthetic test-contract choices and that the file is not an authoritative production API specification.
+
+<Note>
+No server URL is defined. The examples and tables in this documentation include the path and header only.
+</Note>
+
+## Headers
+
+| Credential | Header | Type |
+| --- | --- | --- |
+| Developer API Key | `X-Developer-API-Key` | API key in header |
+| Owner API Key | `X-Owner-API-Key` | API key in header |
+
+Send the key as the header value. The contract does not define a prefix, signing scheme, expiry, scope, or rotation method.
+
+## Developer API Key
+
+Use this key for payment and static-address calls:
+
+- `POST /payments`
+- `GET /payments/{paymentId}`
+- `POST /static-addresses`
+- `GET /static-addresses/{staticAddressId}`
+- `GET /static-addresses/{staticAddressId}/payments`
+
+The payment webhook has no security scheme on the callback itself. See [Webhooks](/concepts/webhooks).
+
+## Owner API Key
+
+Use this key for Address Bank and Collect calls:
+
+- `GET /owner/address-bank/addresses`
+- `POST /owner/address-bank/addresses`
+- `PATCH /owner/address-bank/addresses/{addressId}`
+- `POST /owner/collect/candidates`
+- `POST /owner/collect/prepare`
+- `POST /owner/collect/broadcast`
+
+## What is not defined
+
+How an owner registers and obtains either key is not defined. Key storage for your own systems is your responsibility. The platform rule remains the one in Business Logic: a Developer API Key must not become a path to the Seed or to signing.
+
+Operations that declare HTTP 401 use the error object described in [API overview](/api-reference/overview). The response name is Unauthorized. No error-code catalog is defined.

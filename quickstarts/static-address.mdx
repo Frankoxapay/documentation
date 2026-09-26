@@ -1,0 +1,85 @@
+---
+title: "Accept payments at a static address"
+description: "Create a persistent receiving address and list the payments recorded for it."
+---
+
+A static address is a persistent receiving address for a customer, account, or business use case. Unlike an invoice payment, it can receive multiple incoming transactions. Novixo assigns the address from the owner's Address Bank and monitors it. Funds remain on that owner-controlled address.
+
+<Note>
+The contract does not define a server URL. Examples include the method, path, and `X-Developer-API-Key` header only.
+</Note>
+
+## Before you start
+
+You need a Developer API Key and an Address Bank that can supply an address. See [Authentication](/authentication) and [Register an Address Bank](/quickstarts/address-bank).
+
+## Create the address and list payments
+
+<Steps>
+  <Step title="Create the static address">
+    `POST /static-addresses` requires `asset` and `network`. No catalog of either value is defined.
+
+    ```bash
+    curl -X POST /static-addresses \
+      -H "Content-Type: application/json" \
+      -H "X-Developer-API-Key: YOUR_DEVELOPER_API_KEY" \
+      -d '{"asset":"example_asset","network":"example_network"}'
+    ```
+
+    Optional `reference` is a string. Business Logic describes the association as a customer, account, or business use case, and it does not define `reference` as that identifier. Optional `metadata` has no defined properties.
+
+    HTTP 201 returns the static address. Persist `id` and `address`.
+
+    ```json
+    {
+      "id": "example_static_address_id",
+      "asset": "example_asset",
+      "network": "example_network",
+      "address": "example_address",
+      "status": "active",
+      "createdAt": "2026-01-01T00:00:00Z"
+    }
+    ```
+
+    `active` is one allowed status. The schema also allows `retired`. No operation in the contract sets a static address to `retired`.
+  </Step>
+  <Step title="Share the address">
+    The payer, or your own system, sends funds to `address`. Novixo reports detected payments for that address. How each blockchain transaction becomes one Payment resource is not defined.
+  </Step>
+  <Step title="Read the static address">
+    `GET /static-addresses/{staticAddressId}` returns the same static-address schema.
+
+    ```bash
+    curl /static-addresses/example_static_address_id \
+      -H "X-Developer-API-Key: YOUR_DEVELOPER_API_KEY"
+    ```
+  </Step>
+  <Step title="List recorded payments">
+    `GET /static-addresses/{staticAddressId}/payments` returns a page of Payment resources. Optional `limit` is an integer from 1 to 100. Optional `cursor` is a string. No default or cursor format is defined.
+
+    ```bash
+    curl "/static-addresses/example_static_address_id/payments?limit=1" \
+      -H "X-Developer-API-Key: YOUR_DEVELOPER_API_KEY"
+    ```
+
+    ```json
+    {
+      "items": [
+        {
+          "id": "example_payment_id",
+          "status": "pending",
+          "asset": "example_asset",
+          "network": "example_network",
+          "address": "example_address",
+          "createdAt": "2026-01-01T00:00:00Z"
+        }
+      ],
+      "nextCursor": null
+    }
+    ```
+
+    `pending` in the sample is one allowed Payment status. It is not a rule that listed static-address payments are pending.
+
+    There is no separate static-address webhook type. Payment events use the Payment resource. See [Webhooks](/concepts/webhooks) and [Payment states](/concepts/payment-states).
+  </Step>
+</Steps>
